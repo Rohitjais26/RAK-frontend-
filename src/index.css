@@ -1,0 +1,14 @@
+/* client/src/index.css (UPDATED for global theme) */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Apply theme colors and fonts globally */
+body {
+  @apply bg-off-white text-text-dark font-sans;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply font-heading font-bold; 
+}
