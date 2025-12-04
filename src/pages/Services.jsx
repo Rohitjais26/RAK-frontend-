@@ -138,16 +138,15 @@ const Services = () => {
                                         {category.services.map((service, idx) => (
                                             <li 
                                                 key={idx} 
-                                                className="border-b border-light-gray pb-2 hover:border-accent-orange transition-colors duration-200"
+                                                className="border-b border-light-gray pb-2 transition-colors duration-200"
                                             >
-                                                {/* Linking to the individual service detail page */}
-                                                <a 
-                                                    href={`/services/${service.slug}`} 
-                                                    className="flex justify-between items-center text-lg font-medium text-navy hover:text-accent-orange group"
+                                                {/* Service Name displayed as plain text (no link) */}
+                                                <div 
+                                                    className="flex justify-between items-center text-lg font-medium text-navy"
                                                 >
                                                     <span>{service.name}</span>
-                                                    <ArrowRight className="w-5 h-5 text-accent-blue transition-transform group-hover:translate-x-1" />
-                                                </a>
+                                                    {/* ArrowRight icon and link classes removed */}
+                                                </div>
                                             </li>
                                         ))}
                                     </ul>

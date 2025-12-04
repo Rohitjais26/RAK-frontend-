@@ -85,23 +85,7 @@ const Hero = () => {
         </motion.div>
       </motion.div>
 
-      {/* ===== Floating Scroll Indicator ===== */}
-      <motion.div
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-30 flex flex-col items-center text-white"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: [0, 10, 0] }}
-        transition={{
-          delay: 2,
-          duration: 2,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      >
-        <span className="text-sm mb-1 tracking-widest uppercase text-gray-300">
-          Scroll
-        </span>
-        <div className="w-[1px] h-10 bg-gradient-to-b from-red-600 to-transparent"></div>
-      </motion.div>
+      
 
       {/* ===== Optional Subtle Grain Overlay for Texture ===== */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/asfalt-dark.png')] opacity-10 z-10 pointer-events-none"></div>

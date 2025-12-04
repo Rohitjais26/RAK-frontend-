@@ -1,31 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, Link } from "react-router-dom";
+// Import motion and AnimatePresence from framer-motion for enhanced animation
+import { motion, AnimatePresence } from "framer-motion"; 
+import { NavLink, Link, useLocation } from "react-router-dom"; 
 import { Menu, X, ChevronDown } from "lucide-react";
 
 // UPDATED NAV ITEMS reflecting core service categories and slugs
 const navItems = [
   { name: "Home", path: "/" },
   { name: "About Us", path: "/about" },
-  {
-    name: "Services",
-    path: "/services",
-    dropdown: [
-      { name: "Metal Cutting & Processing", path: "/services/plasma-cutting" },
-      { name: "Heavy Fabrication & Forming", path: "/services/heavy-fabrication" },
-      { name: "CNC & Conventional Machining", path: "/services/cnc-machining" },
-      { name: "Maintenance & Engine Rebuilding", path: "/services/site-maintenance" },
-      { name: "Turnkey Consultancy", path: "/services/consultancy" },
-    ],
-  },
+  { name: "Services", path: "/services" }, // <-- DROPDOWN REMOVED
   { name: "Projects", path: "/projects" },
   { name: "Contact", path: "/contact" },
   { name: 'Careers', path: '/careers' }, 
 ];
 
+// Define colors for easy switching
+const BASE_TEXT_COLOR = 'text-blue-900'; 
+const HOME_TRANSPARENT_COLOR = 'text-white';
+
+
 const Navbar = () => {
+  const { pathname } = useLocation(); 
+  const isHome = pathname === "/";      
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(null);
+
+// ... (rest of the component remains the same)
 
   // Sticky Navbar
   useEffect(() => {
@@ -34,17 +35,25 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // New helper to determine if the navbar should be fully transparent (Home, not scrolled)
+  const isTransparent = isHome && !isSticky; 
+  
   // --- COLOR THEME LOGIC ---
+  // The main text color is white on the transparent header, otherwise navy/dark blue.
+  const textColor = isTransparent ? HOME_TRANSPARENT_COLOR : BASE_TEXT_COLOR; 
+
   const linkClasses = ({ isActive }) =>
-    `px-4 py-2 font-medium rounded-md transition-colors duration-300 ${
+    `w-full block px-4 py-3 font-medium rounded-md transition-colors duration-300 ${
       isActive
-        ? "text-red-600 bg-blue-50" // Active: Red text on Light Blue background
-        : "text-blue-900 hover:text-red-600 hover:bg-blue-50" // Default: Deep Blue text, Red/Light Blue hover
+        ? "text-red-600 bg-blue-50" 
+        : "text-blue-900 hover:text-red-600 hover:bg-blue-50" 
     }`;
 
-  // Base background is transparent, turns white when sticky
-  const headerClasses = `w-full fixed top-0 z-50 transition-all duration-300 ${
-    isSticky ? "bg-white shadow-lg py-3" : "bg-white/95 py-5" // Changed bg-transparent to bg-white/95
+  // Base background is transparent on Home/top, turns white when sticky or on other pages
+  const headerClasses = `w-full fixed top-0 z-50 transition-all duration-500 ${
+    isSticky || !isHome
+      ? "bg-white shadow-lg py-3" // Sticky or Not Home: Solid White
+      : "bg-transparent py-5" // Home AND Not Sticky: Transparent
   }`;
   // --- END COLOR THEME LOGIC ---
 
@@ -54,78 +63,79 @@ const Navbar = () => {
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
           <img 
-            src="/converted_image.png" // RAK Engineering Logo
+            src="/converted_image.png" 
             alt="RAK Engineering Logo" 
-            className="h-10 w-auto" 
+            className="h-10 w-auto"
           />
-          <span className="text-2xl md:text-3xl font-bold text-blue-900">
-            RAK <span className="text-red-600">Engineering</span> {/* Accent name in Red */}
+          {/* Conditionally apply text color to the name */}
+          <span className={`text-2xl md:text-3xl font-bold ${textColor}`}> 
+            RAK <span className="text-red-600">Engineering</span>
           </span>
         </Link>
 
-        {/* Desktop Menu */}
-        <nav className="hidden lg:flex items-center space-x-4">
-          {navItems.map((item) =>
-            item.dropdown ? (
-              <div
-                key={item.name}
-                className="relative"
-                onMouseEnter={() => setDropdownOpen(item.name)}
-                onMouseLeave={() => setDropdownOpen(null)}
-              >
-                <NavLink
-                  to={item.path}
-                  className={({ isActive }) =>
-                    `${linkClasses({ isActive })} flex items-center`
-                  }
+        {/* Right Side: CTA Button + Menu Button */}
+        <div className="flex items-center space-x-4">
+            {/* Get in Touch Button with Framer Motion Animation */}
+            <motion.div
+                // Animation: subtle lift/scale and shadow effect on hover
+                whileHover={{ scale: 1.05, boxShadow: '0 10px 15px -3px rgba(239, 68, 68, 0.5), 0 4px 6px -2px rgba(239, 68, 68, 0.05)' }} 
+                whileTap={{ scale: 0.95 }}
+                className="relative z-10"
+            >
+                <Link
+                    to="/contact"
+                    className={`px-6 py-2 font-semibold rounded-full shadow-lg transition-all duration-300 
+                        ${isTransparent 
+                            ? 'bg-red-600 text-white hover:bg-red-700' 
+                            : 'bg-red-600 text-white hover:bg-blue-900' // Red on solid background, hover to Navy
+                        }`}
                 >
-                  {item.name} <ChevronDown className="ml-1 w-4 h-4" />
-                </NavLink>
+                    Get in Touch
+                </Link>
+            </motion.div>
 
-                {/* Dropdown */}
-                {dropdownOpen === item.name && (
-                  <div className="absolute top-full left-0 mt-2 bg-white border rounded-md shadow-lg w-72 overflow-hidden">
-                    {item.dropdown.map((subItem) => (
-                      <NavLink
-                        key={subItem.name}
-                        to={subItem.path} 
-                        className="block px-4 py-3 text-blue-900 hover:text-white hover:bg-red-600 transition-colors text-sm" // Dropdown hover: Red background, White text
-                      >
-                        {subItem.name}
-                      </NavLink>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ) : (
-              <NavLink key={item.name} to={item.path} className={linkClasses}>
-                {item.name}
-              </NavLink>
-            )
-          )}
-          {/* CTA */}
-          <Link
-            to="/contact"
-            className="ml-4 px-6 py-2 bg-red-600 text-white rounded-full shadow-md hover:bg-blue-900 transition-all duration-300" // CTA: Red background, White text, Deep Blue hover
-          >
-            Request a Quote
-          </Link>
-        </nav>
+            {/* Menu Button (Animated) */}
+            <motion.button
+                className={`p-1.5 rounded-full transition-colors duration-300 ${textColor} ${isSticky ? 'hover:bg-gray-100' : 'hover:bg-white/10'}`} // Subtle background on hover
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                whileHover={{ rotate: 90 }} // Rotate the button/icon container
+                whileTap={{ scale: 0.9 }}
+            >
+                {/* AnimatePresence for smooth transition between icons */}
+                <AnimatePresence mode="wait" initial={false}>
+                    {isMenuOpen ? (
+                        <motion.div
+                            key="x"
+                            initial={{ opacity: 0, rotate: -45 }}
+                            animate={{ opacity: 1, rotate: 0 }}
+                            exit={{ opacity: 0, rotate: 45 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <X size={28} />
+                        </motion.div>
+                    ) : (
+                        <motion.div
+                            key="menu"
+                            initial={{ opacity: 0, rotate: 45 }}
+                            animate={{ opacity: 1, rotate: 0 }}
+                            exit={{ opacity: 0, rotate: -45 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <Menu size={28} />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </motion.button>
+        </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="lg:hidden text-blue-900"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
-
-        {/* Mobile Menu */}
+        {/* Mobile Menu (now the ONLY menu) */}
         {isMenuOpen && (
-          <div className="absolute top-full right-0 w-full bg-white shadow-xl lg:hidden transition-all duration-300">
+          <div className="absolute top-full right-0 w-full bg-white shadow-xl lg:w-96 transition-all duration-300">
             <nav className="flex flex-col p-4 space-y-2">
               {navItems.map((item) => (
                 <div key={item.name}>
+                  {/* Main Nav Link */}
                   <NavLink
                     to={item.path}
                     className={linkClasses}
@@ -134,7 +144,7 @@ const Navbar = () => {
                     {item.name}
                   </NavLink>
 
-                  {/* Mobile Dropdown */}
+                  {/* Dropdown items for Services - This section is now skipped as 'item.dropdown' no longer exists */}
                   {item.dropdown &&
                     item.dropdown.map((subItem) => (
                       <NavLink
@@ -148,13 +158,6 @@ const Navbar = () => {
                     ))}
                 </div>
               ))}
-              <Link
-                to="/contact"
-                className="w-full text-center mt-2 px-6 py-2 bg-red-600 text-white rounded-md hover:bg-blue-900 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Request a Quote
-              </Link>
             </nav>
           </div>
         )}
