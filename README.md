@@ -1,17 +1,121 @@
-# React + Vite
+# RAK Engineering – Frontend Web Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A production-ready **frontend web application** developed as a freelance project for a **UAE-based engineering client**.  
+The application is designed with a strong focus on **performance, scalability, clean UI architecture, and modern frontend best practices**.
 
-Currently, two official plugins are available:
+🔗 **Live Application**: https://rak-frontend.vercel.app/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🧠 Project Purpose & Business Context
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This application serves as a **corporate business website** to present engineering services, company expertise, and customer engagement channels.
 
-## Expanding the ESLint configuration
+Primary objectives:
+- Professional brand presence
+- Clear service communication
+- High performance and fast load times
+- SEO-friendly architecture
+- Responsive design across all devices
+- Scalable frontend foundation for future backend/API integrations
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# RAK-frontend-
+---
+
+## 🏗 Frontend Architecture Overview
+
+The project follows a component-driven architecture using React and Next.js.
+
+### Architectural Principles
+- Modular & reusable components
+- Separation of concerns (UI, layout, logic)
+- Stateless UI where possible
+- Mobile-first responsive approach
+- Production-optimized builds
+
+---
+
+## ⚙️ Technology Stack (Detailed)
+
+### Core Framework
+Next.js (React)
+  - File-based routing
+  - Static generation & SSR support
+  - SEO-optimized rendering
+  - Automatic image optimization
+
+### Styling & UI
+ Tailwind CSS
+  - Utility-first styling
+  - Consistent design system
+  - Responsive breakpoints
+  - Custom theme configuration
+
+### State & Logic
+- React Hooks (`useState`, `useEffect`)
+- Component-level state handling
+- Prop-driven UI rendering
+
+### Tooling & DevOps
+- Node.js
+- npm / yarn
+- Git & GitHub
+- Vercel CI/CD pipeline
+
+---
+
+## 📂 Project Structure
+rak-frontend/
+│
+├── public/ # Static assets (images, icons)
+│
+├── src/
+│ ├── components/ # Reusable UI components
+│ │ ├── Navbar
+│ │ ├── Footer
+│ │ ├── HeroSection
+│ │ └── ServiceCards
+│ │
+│ ├── layouts/ # Shared layout wrappers
+│ │
+│ ├── pages/ # Next.js routes
+│ │ ├── index.tsx # Home page
+│ │ ├── services.tsx
+│ │ └── contact.tsx
+│ │
+│ ├── styles/ # Global styles
+│ └── utils/ # Helper utilities
+│
+├── tailwind.config.js # Tailwind customization
+├── next.config.js # Next.js configuration
+├── package.json
+└── README.md
+
+
+---
+
+## 🚀 Key Technical Features
+
+### Responsive Design
+- Mobile-first layout
+- Tailwind responsive utilities
+- Tested on mobile, tablet, and desktop screens
+
+### Performance Optimization
+- Static page generation
+- Optimized asset delivery via Vercel CDN
+- Minimal JavaScript bundle size
+- Optimized React rendering
+
+### SEO Readiness
+- Semantic HTML structure
+- SEO-friendly routing
+- Fast First Contentful Paint (FCP)
+- Meta tag support
+
+### Reusable UI Components
+- Modular component design
+- Easy extensibility
+- Clean and maintainable codebase
+
+---
+
